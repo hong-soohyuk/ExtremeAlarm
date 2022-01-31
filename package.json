@@ -10,8 +10,13 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/push-notification-ios": "^1.10.1",
+    "moment": "^2.29.1",
     "react": "17.0.2",
-    "react-native": "0.67.1"
+    "react-native": "0.67.1",
+    "react-native-push-notification": "^8.1.1",
+    "react-native-simple-alarm": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
