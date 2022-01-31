@@ -17,7 +17,8 @@ import {
   Text,
   useColorScheme,
   View,
-  Button
+  Button,
+  NativeModules
 } from 'react-native';
 
 import {
@@ -27,6 +28,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+const { AlarmModule } = NativeModules;
 
 const Section: React.FC<{
   title: string;
@@ -96,7 +99,10 @@ const App = () => {
 
 const NewModuleButton = () => {
   const onPress = () => {
-  
+    // console.log('We will invoke the native module here!');
+
+    AlarmModule.createAlarm('Meeting',
+        'Meeting with customer')
   };
 
   return (
