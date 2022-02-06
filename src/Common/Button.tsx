@@ -17,8 +17,9 @@ export type buttonProp = {
 const Button = (props: buttonProp) => {
   //prettier-ignore
   const { accessible, accessibilityLabel, onPress, disabled, style, onLayout, noAnimation, hitSlop,} = props;
-  return useMemo(() => {
-    if (noAnimation) {
+  // return useMemo(() => {
+  if (noAnimation) {
+    return (
       <View
         accessible={accessible}
         accessibilityLabel={accessibilityLabel}
@@ -28,8 +29,10 @@ const Button = (props: buttonProp) => {
         onLayout={onLayout}
         hitSlop={hitSlop}>
         {props.children}
-      </View>;
-    } else {
+      </View>
+    );
+  } else {
+    return (
       <TouchableOpacity
         accessible={accessible}
         accessibilityLabel={accessibilityLabel}
@@ -39,9 +42,10 @@ const Button = (props: buttonProp) => {
         onLayout={onLayout}
         hitSlop={hitSlop}>
         {props.children}
-      </TouchableOpacity>;
-    }
-  }, []);
+      </TouchableOpacity>
+    );
+  }
+  // }, []);
 };
 
 export default Button;

@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, FC} from 'react';
 import {View, Dimensions, StyleSheet, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from './Button';
+import SuperText from './SuperText';
 
 export type navigationProps = {
   //tood: any
@@ -26,9 +27,10 @@ const NavBar = (props: navigationProps) => {
       <View style={styles.container}>
         {(leftButtonTitle || leftButtonIcon) && renderLeftButton()}
 
-        {renderTitle()}
+        {renderTitle(rightButtonTitle)}
 
-        {(rightButtonTitle || rightButtonIcon) && renderRightButton()}
+        {(rightButtonTitle || rightButtonIcon) &&
+          renderRightButton(rightButtonTitle)}
       </View>
     </View>
   );
@@ -46,16 +48,40 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NavBar;
-
-function renderTitle(): React.ReactNode {
-  throw new Error('Function not implemented.');
+function renderTitle(title: string): React.ReactNode {
+  return <SuperText>{title}</SuperText>;
 }
 
-function renderRightButton(): React.ReactNode {
-  throw new Error('Function not implemented.');
-}
+export type rightButtonProps = {
+  rightButtonTitle: any;
+  rightButtonIcon: any;
+  rightButtonTextStyle: any;
+  onRightButtonPress: any;
+};
+
+const renderRightButton = ({
+  rightButtonTitle,
+  rightButtonIcon,
+}: rightButtonProps) => {
+  return (
+    <Button
+      accessible={undefined}
+      accessibilityLabel={
+        rightButtonTitle || rightButtonIcon || 'right nav button'
+      }
+      onPress={undefined}
+      disabled={undefined}
+      style={undefined}
+      onLayout={undefined}
+      noAnimation={undefined}
+      hitSlop={undefined}>
+      <SuperText>{rightButtonTitle}</SuperText>
+    </Button>
+  );
+};
 
 function renderLeftButton(): React.ReactNode {
   throw new Error('Function not implemented.');
 }
+
+export default NavBar;
