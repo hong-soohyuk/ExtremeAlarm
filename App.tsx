@@ -22,6 +22,8 @@ import ReactNativeApp from './components/ReactNativeSampleAppComponent';
 import NativeAlarmModuleApp from './components/NativeAlarmModuleComponent';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import Home from './src/Home/Home';
+import { NavigationContainer } from '@react-navigation/native';
+import TabNavigator from './src/screen/TabNavigator';
 
 const mycreateAlarm = async () => {
   try {
@@ -48,13 +50,16 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <Scene key={'rootSceen'}>
-        <Scene key={'Home'} component={Home} />
-        {/* <Scene key={'AddAlarm'} component={AddAlarm} type={ActionConst.RESET}/> */}
-        {/* <Scene key={'EditAlarm'}component={EditAlarm} type={ActionConst.RESET}/> */}
-      </Scene>
-    </Router>
+    <NavigationContainer>
+      <TabNavigator/>
+    </NavigationContainer>
+    // <Router>
+    //   <Scene key={'rootSceen'}>
+    //     <Scene key={'Home'} component={Home} />
+    //     {/* <Scene key={'AddAlarm'} component={AddAlarm} type={ActionConst.RESET}/> */}
+    //     {/* <Scene key={'EditAlarm'}component={EditAlarm} type={ActionConst.RESET}/> */}
+    //   </Scene>
+    // </Router>
   );
 };
 
