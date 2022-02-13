@@ -3,13 +3,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
-import { Stack } from 'react-native-router-flux';
+import {Stack} from 'react-native-router-flux';
 import StackNavigator from './StackNavigator';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
-  Home: ['home-circle', 'home-circle-outline'],
+  Main: ['home-circle', 'home-circle-outline'],
 };
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
   return {
@@ -30,9 +30,9 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="Home"
+        name="Main"
         component={StackNavigator}
-        options={{tabBarLabel: 'Home', tabBarBadge: 3}}
+        options={{tabBarLabel: 'Main', tabBarBadge: 3}}
       />
     </Tab.Navigator>
   );

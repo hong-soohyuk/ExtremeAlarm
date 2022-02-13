@@ -6,6 +6,19 @@ import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {SafeAreaView, View, UnderlineText,TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
 import ListItem from './ListItem';
 import * as D from '../data';
+import {createAlarm} from 'react-native-simple-alarm';
+import moment from 'moment';
+
+// createAlarm = async () => {
+//   try {
+//     await createAlarm({
+//         active: false,
+//         date: new Date().toISOString();,
+//         message: 'message',
+//         snooze: 1,
+//       });
+//   } catch (e) {}
+// }
 
 export default function Home() {
   const navigation = useNavigation();
@@ -24,7 +37,7 @@ export default function Home() {
   const [scrollEnabled] = useScrollEnabled();
   const flatListRef = useRef<FlatList | null>(null);
 
-  useEffect(() => addAlarm, []);
+  useEffect(() => addAlarm, []); //맨 처음 랜더링 될 때 한번 실행.
   return (
     <SafeAreaView>
       <ScrollEnabledProvider>
