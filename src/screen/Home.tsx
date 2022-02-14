@@ -6,7 +6,11 @@ import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {SafeAreaView, View, UnderlineText,TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
 import ListItem from './ListItem';
 import * as D from '../data';
-import {createAlarm, getAlarms} from 'react-native-simple-alarm';
+import {
+  createAlarm,
+  deleteAllAlarms,
+  getAlarms,
+} from 'react-native-simple-alarm';
 import moment from 'moment';
 import TimePicker from './TimePicker';
 
@@ -18,9 +22,22 @@ export default function Home() {
   const [scrollEnabled] = useScrollEnabled();
 
   const getSavedAlarms = useCallback(async () => {
-    const savedAlarms = await getAlarms();
-    setAlarms(savedAlarms);
+    try {
+      const savedAlarms = await getAlarms();
+      setAlarms(savedAlarms);
+    } catch (error) {
+      console.log('setting call error' + error);
+    }
   }, [alarms]);
+
+  const deleteAll = useCallback(async () => {
+    try {
+      await deleteAllAlarms();
+      // setAlarms([]);
+    } catch (error) {
+      console.log('delete error' + error);
+    }
+  }, []);
 
   useEffect(() => {
     getSavedAlarms();
@@ -35,6 +52,9 @@ export default function Home() {
           <TopBar noSwitch>
             <UnderlineText onPress={() => setOpen(true)} style={styles.text}>
               add alarm
+            </UnderlineText>
+            <UnderlineText onPress={deleteAll} style={styles.text}>
+              delete all alarms
             </UnderlineText>
           </TopBar>
           <TimePicker open={open} setOpen={setOpen} />

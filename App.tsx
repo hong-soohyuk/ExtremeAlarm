@@ -1,12 +1,17 @@
 import React from 'react';
+import {Provider as ReduxProvider} from 'react-redux';
+import {makeStore} from './src/store';
+
 //prettier-ignore
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, Button, NativeModules } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, Button,
+   NativeModules, Platform } from 'react-native';
 //prettier-ignore
 import { Colors, DebugInstructions, Header, LearnMoreLinks, ReloadInstructions } from 'react-native/Libraries/NewAppScreen';
 
 // const { AlarmModule } = NativeModules;
 import {createAlarm, getAlarms} from 'react-native-simple-alarm';
 import moment from 'moment';
+
 // import ExtremeAlarmModule from './native-modules/AlarmModule';
 import ReactNativeApp from './components/ReactNativeSampleAppComponent';
 import NativeAlarmModuleApp from './components/NativeAlarmModuleComponent';
@@ -16,34 +21,23 @@ import Home from './src/Home/Home';
 import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './src/screen/TabNavigator';
 
-const mycreateAlarm = async () => {
-  try {
-    await createAlarm({
-      active: false,
-      date: new Date().toISOString(),
-      message: 'message',
-      snooze: 1,
-    });
-  } catch (e) {}
-};
+//                              in rootReducer
+// const deviceLanguage =
+//   Platform.OS === 'ios'
+//     ? NativeModules.SettingsManager.settings.AppleLocale ||
+//       NativeModules.SettingsManager.settings.AppleLanguages[0] //iOS 13
+//     : NativeModules.I18nManager.localeIdentifier; // Android
+// console.log(deviceLanguage);
 
-const mygetAlarms = async () => {
-  try {
-    const alarms = await getAlarms();
-    console.log(alarms);
-  } catch (e) {}
-};
+const store = makeStore();
 
 const App = () => {
-  const onPress = () => {
-    // mycreateAlarm();
-    mygetAlarms();
-  };
-
   return (
-    <NavigationContainer>
-      <TabNavigator />
-    </NavigationContainer>
+    <ReduxProvider store={store}>
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
+    </ReduxProvider>
   );
 };
 

@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
 import {Stack} from 'react-native-router-flux';
 import StackNavigator from './StackNavigator';
+import {useSelector} from 'react-redux';
+import {AppState, Locale} from '../store';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
@@ -27,6 +29,8 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
+  const initialLocale = useSelector<AppState, Locale>(state => state.locale);
+  console.log('in tap navigator, locale iso code', initialLocale);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen

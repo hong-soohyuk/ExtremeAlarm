@@ -16,8 +16,12 @@ const ListItem: FC<ListItemProps> = ({alarm}) => {
   return (
     <View style={[styles.view]}>
       <Text style={[styles.message]}>{alarm.message}</Text>
-      <Text style={[styles.dateView]}>{alarm.date}</Text>
-      <Text style={[styles.text]}>Is this active?? {alarm.active}</Text>
+      <View style={[styles.dateView]}>
+        <Text style={[styles.text]}>{alarm.date}</Text>
+      </View>
+      <Text style={[styles.comments]}>
+        Is this active?? {alarm.active ? <>yes</> : <>no</>}
+      </Text>
     </View>
   );
 };

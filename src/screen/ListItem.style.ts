@@ -3,7 +3,7 @@ import {Colors} from 'react-native-paper';
 import color from 'color';
 
 export const styles = StyleSheet.create({
-  view: {flexDirection: 'row', padding: 5},
+  view: {flexDirection: 'column', padding: 5},
   message: {marginRight: 5, fontSize: 22, fontWeight: '500'},
   dateView: {
     flexDirection: 'row',
@@ -12,6 +12,8 @@ export const styles = StyleSheet.create({
     marginTop: 5,
   },
   text: {fontSize: 16},
+  comments: {marginTop: 10, fontSize: 16},
+
   countsView: {
     flexDirection: 'row',
     padding: 3,
