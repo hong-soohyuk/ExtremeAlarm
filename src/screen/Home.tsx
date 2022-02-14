@@ -6,10 +6,9 @@ import {useNavigation, DrawerActions} from '@react-navigation/native';
 import {SafeAreaView, View, UnderlineText,TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
 import ListItem from './ListItem';
 import * as D from '../data';
-import {createAlarm} from 'react-native-simple-alarm';
+import {createAlarm, getAlarms} from 'react-native-simple-alarm';
 import moment from 'moment';
-import {create} from 'react-test-renderer';
-import DatePicker from 'react-native-date-picker';
+import TimePicker from './TimePicker';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -17,8 +16,17 @@ export default function Home() {
   const [open, setOpen] = useState<boolean>(false);
   const [alarms, setAlarms] = useState<D.AlarmType[]>([]);
   const [scrollEnabled] = useScrollEnabled();
-  const flatListRef = useRef<FlatList | null>(null);
 
+  const getSavedAlarms = useCallback(async () => {
+    const savedAlarms = await getAlarms();
+    setAlarms(savedAlarms);
+  }, [alarms]);
+
+  useEffect(() => {
+    getSavedAlarms();
+  }, [getSavedAlarms]);
+
+  const flatListRef = useRef<FlatList | null>(null);
   return (
     <SafeAreaView>
       <ScrollEnabledProvider>
@@ -29,16 +37,7 @@ export default function Home() {
               add alarm
             </UnderlineText>
           </TopBar>
-          <DatePicker
-            open={open}
-            date={date}
-            onConfirm={() => {}}
-            onCancel={
-              () => {}
-              // this._hideDateTimePicker
-            }
-            mode="time"
-          />
+          <TimePicker open={open} setOpen={setOpen} />
           <FlatList
             ref={flatListRef}
             scrollEnabled={scrollEnabled}

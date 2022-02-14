@@ -6,28 +6,19 @@ import {StyleSheet} from 'react-native';
 import {Colors} from 'react-native-paper';
 import * as D from '../data';
 import {Alarm} from 'react-native-simple-alarm';
+import {styles} from './ListItem.style';
 
 export type ListItemProps = {
   alarm: D.AlarmType;
 };
 
-const ListItem: FC<ListItemProps> = alarm => {
+const ListItem: FC<ListItemProps> = ({alarm}) => {
   return (
-    <View style={[styles.View]}>
-      <TouchableView style={[styles.View]}>
-        <Icon name="comment" size={24} color={Colors.blue500} />
-        <Text>{alarm.alarm.content}</Text>
-      </TouchableView>
+    <View style={[styles.view]}>
+      <Text style={[styles.message]}>{alarm.message}</Text>
+      <Text style={[styles.dateView]}>{alarm.date}</Text>
+      <Text style={[styles.text]}>Is this active?? {alarm.active}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  View: {
-    flexDirection: 'row',
-    padding: 3,
-    justifyContent: 'center',
-  },
-});
-
 export default ListItem;

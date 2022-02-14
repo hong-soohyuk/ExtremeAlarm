@@ -47,4 +47,4 @@ const App = () => {
   );
 };
 
-export default RNSoundWrapperComponent;
+export default App;
