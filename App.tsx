@@ -13,7 +13,7 @@ import NativeAlarmModuleApp from './components/NativeAlarmModuleComponent';
 import RNSoundWrapperComponent from './components/RNSoundWrapperComponent';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import Home from './src/Home/Home';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './src/screen/TabNavigator';
 
 const mycreateAlarm = async () => {
@@ -42,16 +42,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <TabNavigator/>
+      <TabNavigator />
     </NavigationContainer>
-    // <Router>
-    //   <Scene key={'rootSceen'}>
-    //     <Scene key={'Home'} component={Home} />
-    //     {/* <Scene key={'AddAlarm'} component={AddAlarm} type={ActionConst.RESET}/> */}
-    //     {/* <Scene key={'EditAlarm'}component={EditAlarm} type={ActionConst.RESET}/> */}
-    //   </Scene>
-    // </Router>
   );
 };
 
-export default App;
+export default RNSoundWrapperComponent;
