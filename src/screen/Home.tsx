@@ -8,46 +8,37 @@ import ListItem from './ListItem';
 import * as D from '../data';
 import {createAlarm} from 'react-native-simple-alarm';
 import moment from 'moment';
-
-// createAlarm = async () => {
-//   try {
-//     await createAlarm({
-//         active: false,
-//         date: new Date().toISOString();,
-//         message: 'message',
-//         snooze: 1,
-//       });
-//   } catch (e) {}
-// }
+import {create} from 'react-test-renderer';
+import DatePicker from 'react-native-date-picker';
 
 export default function Home() {
   const navigation = useNavigation();
+  const [date, setDate] = useState<Date>(new Date());
+  const [open, setOpen] = useState<boolean>(false);
   const [alarms, setAlarms] = useState<D.AlarmType[]>([]);
-
-  const addAlarm = useCallback(() => {
-    setAlarms(alarms => [
-      {
-        id: Math.random().toString(36).substring(2, 5),
-        content: 'sample' + Math.random().toString(36).substring(2, 5),
-      },
-      ...alarms,
-    ]);
-  }, []);
-
   const [scrollEnabled] = useScrollEnabled();
   const flatListRef = useRef<FlatList | null>(null);
 
-  useEffect(() => addAlarm, []); //맨 처음 랜더링 될 때 한번 실행.
   return (
     <SafeAreaView>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
           <NavigationHeader title="Home" />
           <TopBar noSwitch>
-            <UnderlineText onPress={addAlarm} style={styles.text}>
+            <UnderlineText onPress={() => setOpen(true)} style={styles.text}>
               add alarm
             </UnderlineText>
           </TopBar>
+          <DatePicker
+            open={open}
+            date={date}
+            onConfirm={() => {}}
+            onCancel={
+              () => {}
+              // this._hideDateTimePicker
+            }
+            mode="time"
+          />
           <FlatList
             ref={flatListRef}
             scrollEnabled={scrollEnabled}
