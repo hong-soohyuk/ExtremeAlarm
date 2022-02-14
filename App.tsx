@@ -1,13 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 //prettier-ignore
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View, Button, NativeModules } from 'react-native';
@@ -20,6 +10,7 @@ import moment from 'moment';
 // import ExtremeAlarmModule from './native-modules/AlarmModule';
 import ReactNativeApp from './components/ReactNativeSampleAppComponent';
 import NativeAlarmModuleApp from './components/NativeAlarmModuleComponent';
+import RNSoundWrapperComponent from './components/RNSoundWrapperComponent';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import Home from './src/Home/Home';
 import { NavigationContainer } from '@react-navigation/native';
