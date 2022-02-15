@@ -15,7 +15,10 @@ const ToggleThemeContext = createContext<ToggleThemeContextType>(
 type ToggleThemeContextProps = {
   toggleTheme: () => void;
 };
-export const ToggleThemeProvider: FC<ToggleThemeContextProps> = ({ children, toggleTheme }) => {
+export const ToggleThemeProvider: FC<ToggleThemeContextProps> = ({
+  children,
+  toggleTheme,
+}) => {
   const value = {toggleTheme};
   return (
     <ToggleThemeContext.Provider value={value}>

@@ -14,29 +14,20 @@ type TimePickerProps = {
 };
 
 const TimePicker: FC<TimePickerProps> = props => {
-  const initialLocale = useSelector<AppState, Locale>(state => state.locale);
-  const isoCode = initialLocale.isoCode;
   const {open, setOpen} = props;
 
   function handleTimePicked(picked_Date: Date) {
-    console.log('iso code in this', isoCode);
-    console.log('picked date', picked_Date);
     createAlarm({
       active: true,
       date: picked_Date.toISOString(),
       message: 'sample alarm',
       snooze: 1,
     });
-
     setOpen(false);
   }
   return (
-    <DatePicker
-      modal
-      timeZoneOffsetInMinutes={0} // is this necessary????? 존나...
-      locale={initialLocale.isoCode}
-      title={'select your time'}
-      open={open}
+    //prettier-ignore
+    <DatePicker modal open={open} mode={'time'}
       date={new Date()}
       onConfirm={handleTimePicked}
       onCancel={() => setOpen(false)}

@@ -1,27 +1,40 @@
 import React, {useState} from 'react';
 import type {FC} from 'react';
 //prettier-ignore
-import { View, Text, UnderlineText, TouchableView, MaterialCommunityIcon as Icon,} from '../theme/navigation';
-import {StyleSheet} from 'react-native';
-import {Colors} from 'react-native-paper';
+import { View, Text} from '../theme/navigation';
 import * as D from '../data';
-import {Alarm} from 'react-native-simple-alarm';
 import {styles} from './ListItem.style';
+import ActiveSwitch from './ActiveSwitch';
+import moment from 'moment';
 
 export type ListItemProps = {
-  alarm: D.AlarmType;
+  props: D.AlarmType;
+  // active: boolean;
+  // date: string;
+  // message: string;
+  // snooze: number;
+  // oid?: string | number;
 };
 
-const ListItem: FC<ListItemProps> = ({alarm}) => {
+const ListItem: FC<ListItemProps> = ({props}) => {
+  const {oid, active, date, message, snooze} = props;
   return (
     <View style={[styles.view]}>
-      <Text style={[styles.message]}>{alarm.message}</Text>
-      <View style={[styles.dateView]}>
-        <Text style={[styles.text]}>{alarm.date}</Text>
+      <View style={[styles.timeView]}>
+        {/* <Text style={[styles.timeText]}>{moment(date).format('HH:mm')}</Text> */}
+        <Text style={[styles.timeText]}>
+          {moment.utc(date, true).format('HH:mm A')}
+        </Text>
+        <ActiveSwitch {...props} />
       </View>
-      <Text style={[styles.comments]}>
-        Is this active?? {alarm.active ? <>yes</> : <>no</>}
-      </Text>
+      <View style={[styles.messageView]}>
+        <Text style={[styles.messageText]}>
+          alarm will ring {moment(date).fromNow()}
+        </Text>
+        <Text style={[styles.messageText]}>
+          {active ? <>activated</> : <>canceled</>}
+        </Text>
+      </View>
     </View>
   );
 };

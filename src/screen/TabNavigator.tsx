@@ -29,8 +29,6 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  const initialLocale = useSelector<AppState, Locale>(state => state.locale);
-  console.log('in tap navigator, locale iso code', initialLocale);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen

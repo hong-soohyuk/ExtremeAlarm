@@ -3,20 +3,40 @@ import {Colors} from 'react-native-paper';
 import color from 'color';
 
 export const styles = StyleSheet.create({
-  view: {flexDirection: 'column', padding: 5},
-  message: {marginRight: 5, fontSize: 22, fontWeight: '500'},
-  dateView: {
+  view: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 3,
+    marginBottom: 3,
+    padding: 5,
+    justifyContent: 'space-around',
+    borderColor: Colors.deepPurple100,
+    borderWidth: 2,
+    borderRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.2,
+    backgroundColor: Colors.white,
+  },
+
+  timeView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 3,
-    marginTop: 5,
+    alignItems: 'center',
+    backgroundColor: Colors.white,
   },
-  text: {fontSize: 16},
-  comments: {marginTop: 10, fontSize: 16},
-
-  countsView: {
+  timeText: {
+    padding: 3,
+    fontSize: 40,
+    fontWeight: '500',
+  },
+  messageView: {
     flexDirection: 'row',
-    padding: 3,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    backgroundColor: Colors.white,
   },
+  messageText: {padding: 3, fontSize: 15},
 });

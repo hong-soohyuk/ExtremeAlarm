@@ -62,8 +62,8 @@ export default function Home() {
             ref={flatListRef}
             scrollEnabled={scrollEnabled}
             data={alarms}
-            renderItem={({item}) => <ListItem alarm={item} />}
-            keyExtractor={item => item.id}
+            renderItem={({item}) => <ListItem props={item}/>}
+            keyExtractor={item => item.oid}
           />
         </View>
       </ScrollEnabledProvider>
