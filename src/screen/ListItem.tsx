@@ -8,16 +8,13 @@ import ActiveSwitch from './ActiveSwitch';
 import moment from 'moment';
 
 export type ListItemProps = {
-  props: D.AlarmType;
-  // active: boolean;
-  // date: string;
-  // message: string;
-  // snooze: number;
-  // oid?: string | number;
+  props: D.AlarmType; // active: boolean; date: string; message: string; snooze: number; oid?: string | number;
 };
 
 const ListItem: FC<ListItemProps> = ({props}) => {
   const {oid, active, date, message, snooze} = props;
+  const [showPicker, setShowPicker] = useState<boolean>(false);
+
   return (
     <View style={[styles.view]}>
       <View style={[styles.timeView]}>

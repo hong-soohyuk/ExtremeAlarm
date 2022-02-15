@@ -1,17 +1,19 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
 import {Stack} from 'react-native-router-flux';
 import StackNavigator from './StackNavigator';
 import {useSelector} from 'react-redux';
 import {AppState, Locale} from '../store';
+import Timer from './Timer';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
-  Main: ['home-circle', 'home-circle-outline'],
+  Alarm: ['ios-alarm', 'ios-alarm-outline'],
+  Timer: ['ios-timer', 'ios-timer-outline'],
 };
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
   return {
@@ -32,9 +34,14 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="Main"
+        name="Alarm"
         component={StackNavigator}
-        options={{tabBarLabel: 'Main', tabBarBadge: 3}}
+        options={{tabBarLabel: 'Alarm', tabBarBadge: 2}}
+      />
+      <Tab.Screen
+        name="Timer"
+        component={Timer}
+        options={{tabBarLabel: 'Timer'}}
       />
     </Tab.Navigator>
   );

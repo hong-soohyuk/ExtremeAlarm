@@ -3,22 +3,19 @@ import {StyleSheet, FlatList} from 'react-native';
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 import {useNavigation, DrawerActions} from '@react-navigation/native';
 // prettier-ignore
-import {SafeAreaView, View, UnderlineText,TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
+import {SafeAreaView, View, Text,  UnderlineText, TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
 import ListItem from './ListItem';
 import * as D from '../data';
-import {
-  createAlarm,
-  deleteAllAlarms,
-  getAlarms,
-} from 'react-native-simple-alarm';
+// prettier-ignore
+import { createAlarm, deleteAllAlarms, getAlarms,} from 'react-native-simple-alarm';
 import moment from 'moment';
-import TimePicker from './TimePicker';
+import TimePicker from './TimeModal';
+import TimeModal from './TimeModal';
 
 export default function Home() {
   const navigation = useNavigation();
-  const [date, setDate] = useState<Date>(new Date());
-  const [open, setOpen] = useState<boolean>(false);
   const [alarms, setAlarms] = useState<D.AlarmType[]>([]);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [scrollEnabled] = useScrollEnabled();
 
   const getSavedAlarms = useCallback(async () => {
@@ -48,23 +45,32 @@ export default function Home() {
     <SafeAreaView>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
-          <NavigationHeader title="Home" />
+          <NavigationHeader
+            title="Alarm"
+            // Left={() => <Text style={{fontSize: 20}}>Edit</Text>}
+            Right={() => (
+              <Icon
+                name="plus"
+                size={30}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              />
+            )}
+          />
           <TopBar noSwitch>
-            <UnderlineText onPress={() => setOpen(true)} style={styles.text}>
-              add alarm
-            </UnderlineText>
             <UnderlineText onPress={deleteAll} style={styles.text}>
               delete all alarms
             </UnderlineText>
           </TopBar>
-          <TimePicker open={open} setOpen={setOpen} />
           <FlatList
             ref={flatListRef}
             scrollEnabled={scrollEnabled}
             data={alarms}
-            renderItem={({item}) => <ListItem props={item}/>}
+            renderItem={({item}) => <ListItem props={item} />}
             keyExtractor={item => item.oid}
           />
+          <TimeModal visible={modalVisible} setVisible={setModalVisible} />
         </View>
       </ScrollEnabledProvider>
     </SafeAreaView>
