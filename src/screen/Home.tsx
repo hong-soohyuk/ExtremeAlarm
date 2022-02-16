@@ -1,20 +1,17 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
-import {StyleSheet, FlatList} from 'react-native';
+import {StyleSheet, FlatList, ListRenderItem} from 'react-native';
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
-import {useNavigation, DrawerActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 // prettier-ignore
 import {SafeAreaView, View, Text,  UnderlineText, TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
 import ListItem from './ListItem';
-import * as D from '../data';
-// prettier-ignore
-import { createAlarm, deleteAllAlarms, getAlarms,} from 'react-native-simple-alarm';
-import moment from 'moment';
-import TimePicker from './TimeModal';
+import {deleteAllAlarms, getAlarms} from 'react-native-simple-alarm';
 import TimeModal from './TimeModal';
+import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 
 export default function Home() {
   const navigation = useNavigation();
-  const [alarms, setAlarms] = useState<D.AlarmType[]>([]);
+  const [alarms, setAlarms] = useState<AlarmType[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [scrollEnabled] = useScrollEnabled();
 
@@ -30,7 +27,6 @@ export default function Home() {
   const deleteAll = useCallback(async () => {
     try {
       await deleteAllAlarms();
-      // setAlarms([]);
     } catch (error) {
       console.log('delete error' + error);
     }
@@ -41,22 +37,21 @@ export default function Home() {
   }, [getSavedAlarms]);
 
   const flatListRef = useRef<FlatList | null>(null);
+
+  const renderItem: ListRenderItem<AlarmType> = ({item}) => {
+    return <ListItem props={item} />;
+  };
+
   return (
     <SafeAreaView>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
           <NavigationHeader
             title="Alarm"
-            // Left={() => <Text style={{fontSize: 20}}>Edit</Text>}
-            Right={() => (
-              <Icon
-                name="plus"
-                size={30}
-                onPress={() => {
-                  setModalVisible(true);
-                }}
-              />
-            )}
+            Right={() =>
+              // prettier-ignore
+              <Icon name="plus" size={30} onPress={() => setModalVisible(true)}/>
+            }
           />
           <TopBar noSwitch>
             <UnderlineText onPress={deleteAll} style={styles.text}>
@@ -67,8 +62,8 @@ export default function Home() {
             ref={flatListRef}
             scrollEnabled={scrollEnabled}
             data={alarms}
-            renderItem={({item}) => <ListItem props={item} />}
-            keyExtractor={item => item.oid}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
           />
           <TimeModal visible={modalVisible} setVisible={setModalVisible} />
         </View>

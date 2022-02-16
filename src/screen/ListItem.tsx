@@ -1,7 +1,6 @@
 import React from 'react';
 import type {FC} from 'react';
 import {View, Text} from '../theme/navigation';
-import * as D from '../data';
 import {styles} from './ListItem.style';
 import ActiveSwitch from './ActiveSwitch';
 import moment from 'moment';
@@ -9,13 +8,10 @@ import {Swipeable, TouchableOpacity} from 'react-native-gesture-handler';
 import {deleteAlarmById} from 'react-native-simple-alarm';
 import {Animated} from 'react-native';
 
-export type ListItemProps = {
-  props: D.AlarmType; // active: boolean; date: string; message: string; snooze: number; oid?: string | number;
-};
+import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 
-const ListItem: FC<ListItemProps> = ({props}) => {
-  const {oid, active, date, message, snooze} = props;
-  const deleteItem = async (oid: string) => {
+const ListItem = (props: AlarmType) => {
+  const deleteItem = async (oid: string | number) => {
     try {
       await deleteAlarmById(oid);
     } catch (error) {
