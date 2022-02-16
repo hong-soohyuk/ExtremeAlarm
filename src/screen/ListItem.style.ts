@@ -3,7 +3,7 @@ import {Colors} from 'react-native-paper';
 import color from 'color';
 
 export const styles = StyleSheet.create({
-  view: {
+  itemView: {
     display: 'flex',
     flexDirection: 'column',
     marginTop: 3,
@@ -39,4 +39,22 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   messageText: {padding: 3, fontSize: 15},
+
+  /* Swipeables */
+  rightActionView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: Colors.red500,
+    marginTop: 3,
+    marginBottom: 3,
+    padding: 5,
+    borderRadius: 10,
+  },
+  rightActionText: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    fontSize: 16,
+    padding: 10,
+  },
 });

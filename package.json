@@ -45,6 +45,7 @@
     "@types/color": "^3.0.3",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.66.15",
+    "@types/react-native-push-notification": "^7.3.3",
     "@types/react-native-vector-icons": "^6.4.10",
     "@types/react-redux": "^7.1.22",
     "@types/react-test-renderer": "^17.0.1",

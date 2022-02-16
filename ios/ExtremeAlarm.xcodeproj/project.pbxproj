@@ -32,6 +32,7 @@
 		00E356EE1AD99517003FC87E /* ExtremeAlarmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExtremeAlarmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ExtremeAlarmTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtremeAlarmTests.m; sourceTree = "<group>"; };
+		08847AC427BD0F4700D1DD9F /* ExtremeAlarm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ExtremeAlarm.entitlements; path = ExtremeAlarm/ExtremeAlarm.entitlements; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ExtremeAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExtremeAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ExtremeAlarm/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ExtremeAlarm/AppDelegate.m; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		13B07FAE1A68108700A75B9A /* ExtremeAlarm */ = {
 			isa = PBXGroup;
 			children = (
+				08847AC427BD0F4700D1DD9F /* ExtremeAlarm.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -495,6 +497,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ExtremeAlarm/ExtremeAlarm.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ExtremeAlarm/Info.plist;
@@ -521,6 +524,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ExtremeAlarm/ExtremeAlarm.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = ExtremeAlarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

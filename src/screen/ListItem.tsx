@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import type {FC} from 'react';
-//prettier-ignore
-import { View, Text} from '../theme/navigation';
+import {View, Text} from '../theme/navigation';
 import * as D from '../data';
 import {styles} from './ListItem.style';
 import ActiveSwitch from './ActiveSwitch';
 import moment from 'moment';
-import {Swipeable} from 'react-native-gesture-handler';
-import {renderRightActions} from '../contexts/';
-import {deleteAlarm, deleteAlarmById} from 'react-native-simple-alarm';
+import {Swipeable, TouchableOpacity} from 'react-native-gesture-handler';
+import {deleteAlarmById} from 'react-native-simple-alarm';
+import {Animated} from 'react-native';
 
 export type ListItemProps = {
   props: D.AlarmType; // active: boolean; date: string; message: string; snooze: number; oid?: string | number;
@@ -16,13 +15,21 @@ export type ListItemProps = {
 
 const ListItem: FC<ListItemProps> = ({props}) => {
   const {oid, active, date, message, snooze} = props;
-
+  const deleteItem = async (oid: string) => {
+    try {
+      await deleteAlarmById(oid);
+    } catch (error) {
+      console.log('deleting alarm by id error: ', error);
+    }
+  };
   return (
     <Swipeable
       renderRightActions={(progress, dragAnimatedValue) =>
-        renderRightActions(progress, dragAnimatedValue, oid)
-      }>
-      <View style={[styles.view]}>
+        renderRightActions(progress, dragAnimatedValue)
+      }
+      friction={1.5}
+      onSwipeableRightOpen={() => deleteItem(oid)}>
+      <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
           <Text style={[styles.timeText]}>
             {moment.utc(date, true).format('HH:mm A')}
@@ -41,4 +48,25 @@ const ListItem: FC<ListItemProps> = ({props}) => {
     </Swipeable>
   );
 };
+
+/* Swipe to remove pane*/
+const renderRightActions = (
+  progress: Animated.AnimatedInterpolation,
+  dragAnimatedValue: Animated.AnimatedInterpolation,
+) => {
+  const scale = dragAnimatedValue.interpolate({
+    inputRange: [-50, 0],
+    outputRange: [1, 1],
+    extrapolate: 'clamp',
+  });
+
+  return (
+    <Animated.View style={[styles.rightActionView, {transform: [{scale}]}]}>
+      <TouchableOpacity>
+        <Text style={styles.rightActionText}>Delete</Text>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
+
 export default ListItem;
