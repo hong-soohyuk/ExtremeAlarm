@@ -27,6 +27,7 @@ export default function Home() {
   const deleteAll = useCallback(async () => {
     try {
       await deleteAllAlarms();
+      setAlarms([]);
     } catch (error) {
       console.log('delete error' + error);
     }
@@ -37,10 +38,6 @@ export default function Home() {
   }, [getSavedAlarms]);
 
   const flatListRef = useRef<FlatList | null>(null);
-
-  const renderItem: ListRenderItem<AlarmType> = ({item}) => {
-    return <ListItem props={item} />;
-  };
 
   return (
     <SafeAreaView>
@@ -62,7 +59,7 @@ export default function Home() {
             ref={flatListRef}
             scrollEnabled={scrollEnabled}
             data={alarms}
-            renderItem={renderItem}
+            renderItem={({item}) => <ListItem {...item} />}
             keyExtractor={item => item.id}
           />
           <TimeModal visible={modalVisible} setVisible={setModalVisible} />

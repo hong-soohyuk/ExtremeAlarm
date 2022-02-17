@@ -11,11 +11,15 @@ import {Animated} from 'react-native';
 import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 
 const ListItem = (props: AlarmType) => {
-  const deleteItem = async (oid: string | number) => {
-    try {
-      await deleteAlarmById(oid);
-    } catch (error) {
-      console.log('deleting alarm by id error: ', error);
+  const deleteItem = async () => {
+    if (props.oid) {
+      try {
+        await deleteAlarmById(props.oid);
+      } catch (error) {
+        console.log('deleting alarm by id error: ', error);
+      }
+    } else {
+      console.log('OID of the alarm is undefined');
     }
   };
   return (
@@ -24,20 +28,20 @@ const ListItem = (props: AlarmType) => {
         renderRightActions(progress, dragAnimatedValue)
       }
       friction={1.5}
-      onSwipeableRightOpen={() => deleteItem(oid)}>
+      onSwipeableRightOpen={() => deleteItem}>
       <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
           <Text style={[styles.timeText]}>
-            {moment.utc(date, true).format('HH:mm A')}
+            {moment.utc(props.date, true).format('HH:mm A')}
           </Text>
           <ActiveSwitch {...props} />
         </View>
         <View style={[styles.messageView]}>
           <Text style={[styles.messageText]}>
-            alarm will ring {moment(date).fromNow()}
+            alarm will ring {moment(props.date).fromNow()}
           </Text>
           <Text style={[styles.messageText]}>
-            {active ? <>activated</> : <>canceled</>}
+            {props.active ? <>activated</> : <>canceled</>}
           </Text>
         </View>
       </View>
