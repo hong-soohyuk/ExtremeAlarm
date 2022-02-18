@@ -27,7 +27,7 @@ const ListItem = (props: AlarmType) => {
         renderRightActions(progress, dragAnimatedValue)
       }
       friction={1.5}
-      onSwipeableRightOpen={() => deleteItem}>
+      onSwipeableRightOpen={() => deleteItem()}>
       <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
           <Text style={[styles.timeText]}>

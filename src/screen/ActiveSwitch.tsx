@@ -10,10 +10,12 @@ export type SwitchProps = ComponentProps<typeof ReactNativeSwitch> &
 const ActiveSwitch: FC<SwitchProps> = props => {
   const {oid, active, date, message, snooze} = props;
   async function editActive() {
-    try {
-      active ? await cancelAlarmById(oid) : await activateAlarmById(oid);
-    } catch (error) {
-      console.log('switch', error);
+    if (oid) {
+      try {
+        active ? await cancelAlarmById(oid) : await activateAlarmById(oid);
+      } catch (error) {
+        console.log('switch', error);
+      }
     }
   }
   return (

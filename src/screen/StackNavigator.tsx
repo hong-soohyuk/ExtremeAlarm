@@ -4,14 +4,16 @@ import {TransitionPresets} from '@react-navigation/stack';
 import Home from './Home';
 import TimeModal from './TimeModal';
 import EditMessage from './EditMessage';
+import {Pressable, StyleSheet, Text} from 'react-native';
+import {Colors} from 'react-native-paper';
 
 export type RootStackParamList = {
   Home: undefined;
   ModalStackView: undefined;
 };
 export type ModalStackParamList = {
-  TimeModal: undefined;
-  EditMessage: undefined;
+  AddAlarm: undefined;
+  Message: {message: string; setMessage: (val: string) => void};
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -21,16 +23,18 @@ const ModalStackView = () => {
   return (
     <ModalStack.Navigator screenOptions={{headerShown: false}}>
       <ModalStack.Screen
-        name="TimeModal"
+        name="AddAlarm"
         component={TimeModal}
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: 'Add Alarm',
           presentation: 'modal',
           ...TransitionPresets.ModalPresentationIOS,
+         
         }}
       />
       <ModalStack.Screen
-        name="EditMessage"
+        name="Message"
         component={EditMessage}
         options={{
           headerShown: true,
@@ -59,33 +63,3 @@ const StackNavigator = () => {
 };
 
 export default StackNavigator;
-
-// export default function StackNavigator() {
-// const interpolator = useNavigationHorizontalInterpolator();
-// const leftOptions = useMemo<StackNavigationOptions>(
-//   () => ({
-//     gestureDirection: 'horizontal-inverted',
-//     cardStyleInterpolator: interpolator,
-//   }),
-//   [],
-// );
-// const rightOptions = useMemo<StackNavigationOptions>(
-//   () => ({
-//     gestureDirection: 'horizontal',
-//     cardStyleInterpolator: interpolator,
-//   }),
-//   [],
-// );
-// return (
-//   <Stack.Navigator screenOptions={{headerShown: false}}>
-//     <Stack.Screen name="Home" component={Home} />
-//     <Stack.Screen
-//       name="TimeModal"
-//       component={TimeModal}
-//       options={{presentation: 'modal'}}
-//     />
-//     <Stack.Screen name="HomeLeft" component={EditMessage} />
-//     {/* <Stack.Screen name="HomeRight" component={HomeRight} options={rightOptions}/> */}
-//   </Stack.Navigator>
-// );
-// }

@@ -1,42 +1,70 @@
-import React, {ComponentProps, useEffect, useState} from 'react';
+import React, {
+  ComponentProps,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import type {FC} from 'react';
-import {Modal, Pressable, StyleSheet} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 // prettier-ignore
-import { NavigationHeader, Text, View, MaterialCommunityIcon as Icon, TextInput,} from '../theme';
 import {Colors} from 'react-native-paper';
+import {AutoFocusProvider, useAutoFocus} from '../contexts';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {ModalStackParamList} from './StackNavigator';
+import {StackNavigationProp} from '@react-navigation/stack';
+
+type messageScreenProps = StackNavigationProp<ModalStackParamList, 'Message'>;
+type messageRouteProps = RouteProp<ModalStackParamList, 'Message'>;
 
 const EditMessage = () => {
-  return <Text>hello</Text>;
+  const navigation = useNavigation<messageScreenProps>();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackTitle: 'Back',
+    });
+  }, [navigation]);
+
+  const route = useRoute<messageRouteProps>();
+  const focus = useAutoFocus();
+  return (
+    <View style={[styles.view]}>
+      <Text style={[styles.text]}>set your message</Text>
+      <AutoFocusProvider contentContainerStyle={[styles.keyboardAwareFocus]}>
+        <TextInput
+          onFocus={focus}
+          style={[styles.textInput]}
+          value={route.params.message}
+          onChangeText={route.params.setMessage}
+        />
+      </AutoFocusProvider>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  modalView: {
+  view: {
     flex: 1,
-    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: 30,
+    fontSize: 18,
+    color: Colors.grey800,
+  },
+  keyboardAwareFocus: {
+    flex: 1,
+    padding: 5,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  pressable: {padding: 8, margin: 4},
-  textStyle: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: Colors.blue500,
-  },
-  tapListView: {
-    backgroundColor: Colors.grey200,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 10,
-  },
-  tapItemView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'transparent',
-    marginLeft: 12,
-    marginRight: 12,
-    margin: 10,
+  textInput: {
+    width: '95%',
+    marginTop: 10,
+    padding: 5,
+    fontSize: 24,
+    borderRadius: 5,
+    backgroundColor: Colors.grey300,
   },
 });
-
 export default EditMessage;
