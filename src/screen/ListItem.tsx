@@ -10,29 +10,31 @@ import {Animated} from 'react-native';
 
 import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 
-const ListItem = (props: AlarmType) => {
-  const deleteItem = async () => {
-    if (props.oid) {
-      try {
-        await deleteAlarmById(props.oid);
-      } catch (error) {
-        console.log('deleting alarm by id error: ', error);
-      }
-    } else {
-      console.log('OID of the alarm is undefined');
+const deleteItem = async (alarmID: string | number | undefined) => {
+  if (alarmID) {
+    try {
+      await deleteAlarmById(alarmID);
+    } catch (error) {
+      console.log('deleting alarm by id error: ', error);
     }
-  };
+  } else {
+    console.log('OID of the alarm is undefined');
+  }
+};
+
+const ListItem = (props: AlarmType) => {
   return (
     <Swipeable
       renderRightActions={(progress, dragAnimatedValue) =>
         renderRightActions(progress, dragAnimatedValue)
       }
       friction={1.5}
-      onSwipeableRightOpen={() => deleteItem}>
+      onSwipeableRightOpen={() => deleteItem(props.oid)}>
       <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
           <Text style={[styles.timeText]}>
-            {moment.utc(props.date, true).format('HH:mm A')}
+            {moment(props.date, true).format('HH:mm A')}{' '}
+            {/* use HH for 24hours system, or hh for 12hours */}
           </Text>
           <ActiveSwitch {...props} />
         </View>
