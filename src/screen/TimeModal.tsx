@@ -4,26 +4,24 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {createAlarm} from 'react-native-simple-alarm';
 import {Modal, Pressable, StyleSheet} from 'react-native';
-import {
-  NavigationHeader,
-  Text,
-  View,
-  MaterialCommunityIcon as Icon,
-} from '../theme';
+// prettier-ignore
+import { NavigationHeader, Text, View, MaterialCommunityIcon as Icon, TextInput,} from '../theme';
 import {Colors} from 'react-native-paper';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {
-  FlatList,
-  TouchableHighlight,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import EditMessage from './EditMessage';
+import {useNavigation} from '@react-navigation/native';
+import {ModalStackParamList} from './StackNavigator';
 
-type TimeModalProps = ComponentProps<typeof Modal> & {
-  setVisible: (visible: boolean) => void;
-};
+type modalScreenProp = StackNavigationProp<ModalStackParamList, 'TimeModal'>;
 
-const TimeModal: FC<TimeModalProps> = ({visible, setVisible, ...props}) => {
+const TimeModal = () => {
+  const navigation = useNavigation<modalScreenProp>();
   const [date, setDate] = useState<Date>(moment(new Date()).toDate());
-
+  const [message, setMessage] = useState<string>('Empty string');
   const onChange = (event: Event, selectedDate: Date) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
@@ -37,7 +35,7 @@ const TimeModal: FC<TimeModalProps> = ({visible, setVisible, ...props}) => {
       await createAlarm({
         active: true,
         date: date.toISOString(),
-        message: 'sample alarm',
+        message: message,
         snooze: 1,
       });
     } catch (error) {
@@ -45,23 +43,16 @@ const TimeModal: FC<TimeModalProps> = ({visible, setVisible, ...props}) => {
     }
     console.log('date ' + date + '\n\n');
     console.log('\n\n');
-    setVisible(false);
   };
   //prettier-ignore
-  const optionData = [{title: 'Repeat', content: 'Never',}, { title: 'Song', content: 'Marimba',}, { title: 'Label', content: 'time to wake up',} ];
+  const optionData = [ {title: 'Repeat', content: 'Never'}, {title: 'Song', content: 'Marimba'}, {title: 'Label', content: 'time to wake up'},
+  ];
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      presentationStyle="pageSheet"
-      statusBarTranslucent={true}
-      onRequestClose={() => setVisible(!visible)}>
+    <View style={[styles.modalView]}>
       <NavigationHeader
         title="Add Alarm"
         Left={() => (
-          <Pressable
-            style={[styles.pressable]}
-            onPress={() => setVisible(false)}>
+          <Pressable style={[styles.pressable]} onPress={() => {}}>
             <Text style={[styles.textStyle]}>Cancel</Text>
           </Pressable>
         )}
@@ -92,7 +83,8 @@ const TimeModal: FC<TimeModalProps> = ({visible, setVisible, ...props}) => {
             );
           }}
           renderItem={({item, index, separators}) => (
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('EditMessage')}>
               <View style={[styles.tapItemView]}>
                 <Text style={[{fontSize: 20, color: Colors.grey900}]}>
                   {item.title}
@@ -105,16 +97,14 @@ const TimeModal: FC<TimeModalProps> = ({visible, setVisible, ...props}) => {
           )}
         />
       </View>
-    </Modal>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   modalView: {
-    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
   },
   pressable: {padding: 8, margin: 4},
   textStyle: {
@@ -123,10 +113,12 @@ const styles = StyleSheet.create({
     color: Colors.blue500,
   },
   tapListView: {
-    backgroundColor: Colors.grey200,
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 10,
+    borderRadius: 5,
+    backgroundColor: Colors.grey200,
   },
   tapItemView: {
     flexDirection: 'row',

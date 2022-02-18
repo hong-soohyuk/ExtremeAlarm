@@ -7,29 +7,27 @@ import moment from 'moment';
 import {Swipeable, TouchableOpacity} from 'react-native-gesture-handler';
 import {deleteAlarmById} from 'react-native-simple-alarm';
 import {Animated} from 'react-native';
-
 import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 
-const deleteItem = async (alarmID: string | number | undefined) => {
-  if (alarmID) {
-    try {
-      await deleteAlarmById(alarmID);
-    } catch (error) {
-      console.log('deleting alarm by id error: ', error);
-    }
-  } else {
-    console.log('OID of the alarm is undefined');
-  }
-};
-
 const ListItem = (props: AlarmType) => {
+  const deleteItem = async () => {
+    if (props.id) {
+      try {
+        await deleteAlarmById(props.id);
+      } catch (error) {
+        console.log('deleting alarm by id error: ', error);
+      }
+    } else {
+      console.log('OID of the alarm is undefined');
+    }
+  };
   return (
     <Swipeable
       renderRightActions={(progress, dragAnimatedValue) =>
         renderRightActions(progress, dragAnimatedValue)
       }
       friction={1.5}
-      onSwipeableRightOpen={() => deleteItem(props.oid)}>
+      onSwipeableRightOpen={() => deleteItem}>
       <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
           <Text style={[styles.timeText]}>

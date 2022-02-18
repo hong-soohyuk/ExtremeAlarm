@@ -6,13 +6,16 @@ import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView, View, Text,  UnderlineText, TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
 import ListItem from './ListItem';
 import {deleteAllAlarms, getAlarms} from 'react-native-simple-alarm';
-import TimeModal from './TimeModal';
 import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
+import {RootStackParamList} from './StackNavigator';
+import {StackNavigationProp} from '@react-navigation/stack';
+
+type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function Home() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<homeScreenProp>();
   const [alarms, setAlarms] = useState<AlarmType[]>([]);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  // const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [scrollEnabled] = useScrollEnabled();
 
   const getSavedAlarms = useCallback(async () => {
@@ -47,7 +50,7 @@ export default function Home() {
             title="Alarm"
             Right={() =>
               // prettier-ignore
-              <Icon name="plus" size={30} onPress={() => setModalVisible(true)}/>
+              <Icon name="plus" size={30} onPress={() => navigation.navigate('ModalStackView')}/>
             }
           />
           <TopBar noSwitch>
@@ -62,7 +65,7 @@ export default function Home() {
             renderItem={({item}) => <ListItem {...item} />}
             keyExtractor={item => item.id}
           />
-          <TimeModal visible={modalVisible} setVisible={setModalVisible} />
+          {/* <TimeModal visible={modalVisible} setVisible={setModalVisible} /> */}
         </View>
       </ScrollEnabledProvider>
     </SafeAreaView>
