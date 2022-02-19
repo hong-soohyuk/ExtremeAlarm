@@ -3,12 +3,12 @@ import type {ComponentProps, ForwardRefRenderFunction} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useScrollEnabled} from '../contexts';
 import ListItem from './ListItem';
-import * as D from '../data';
+import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 
 //note: ts-rn p363 참고
 
 export type AlarmListProps = ComponentProps<typeof FlatList> & {
-  alarms: D.AlarmType[];
+  alarms: AlarmType[];
 };
 
 const _AlarmList: ForwardRefRenderFunction<FlatList, AlarmListProps> = (
@@ -23,7 +23,7 @@ const _AlarmList: ForwardRefRenderFunction<FlatList, AlarmListProps> = (
       ref={flatListRef}
       scrollEnabled={scrollEnabled}
       data={alarms}
-      renderItem={({item}) => <ListItem alarm={item} />}
+      renderItem={({item}) => <ListItem {...item} />}
       keyExtractor={item => item.id}
     />
   );

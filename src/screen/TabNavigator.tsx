@@ -6,7 +6,7 @@ import type {RouteProp, ParamListBase} from '@react-navigation/native';
 import {Stack} from 'react-native-router-flux';
 import StackNavigator from './StackNavigator';
 import {useSelector} from 'react-redux';
-import {AppState, Locale} from '../store';
+import {AppState, Locale} from '../store/alarm';
 import Timer from './Timer';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};

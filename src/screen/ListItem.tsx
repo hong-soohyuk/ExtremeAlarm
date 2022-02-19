@@ -1,40 +1,27 @@
 import React from 'react';
-import type {FC} from 'react';
-import {View, Text} from '../theme/navigation';
 import {styles} from './ListItem.style';
-import ActiveSwitch from './ActiveSwitch';
 import moment from 'moment';
 import {Swipeable, TouchableOpacity} from 'react-native-gesture-handler';
-import {deleteAlarmById} from 'react-native-simple-alarm';
-import {Animated} from 'react-native';
+import {Animated, Switch, Text, View} from 'react-native';
 import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
+import {deleteAlarmById, switchAlarmById} from '../libs/alarm';
 
 const ListItem = (props: AlarmType) => {
-  const deleteItem = async () => {
-    if (props.id) {
-      try {
-        await deleteAlarmById(props.id);
-      } catch (error) {
-        console.log('deleting alarm by id error: ', error);
-      }
-    } else {
-      console.log('OID of the alarm is undefined');
-    }
-  };
+  const {oid, active, date, message, snooze} = props;
   return (
     <Swipeable
       renderRightActions={(progress, dragAnimatedValue) =>
         renderRightActions(progress, dragAnimatedValue)
       }
       friction={1.5}
-      onSwipeableRightOpen={() => deleteItem()}>
+      onSwipeableRightOpen={() => deleteAlarmById({...props})}>
       <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
           <Text style={[styles.timeText]}>
             {moment(props.date, true).format('HH:mm A')}{' '}
             {/* use HH for 24hours system, or hh for 12hours */}
           </Text>
-          <ActiveSwitch {...props} />
+          <Switch value={active} onChange={() => switchAlarmById({...props})} />
         </View>
         <View style={[styles.messageView]}>
           <Text style={[styles.messageText]}>

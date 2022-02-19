@@ -1,6 +1,5 @@
-export type Locale = {
-  isoCode: string;
-};
+import * as A from './alarm';
+
 export type AppState = {
-  locale: Locale;
+  alarm: A.State;
 };

@@ -1,22 +1,15 @@
-import React, {useState, useCallback, useEffect, useRef} from 'react';
-import {StyleSheet, FlatList} from 'react-native';
-import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
+import React from 'react';
+import {StyleSheet, SafeAreaView, View} from 'react-native';
+import {ScrollEnabledProvider} from '../contexts';
 import {useNavigation} from '@react-navigation/native';
-// prettier-ignore
-import {SafeAreaView, View, Text,  UnderlineText, TopBar,NavigationHeader, MaterialCommunityIcon as Icon} from '../theme'
-import * as D from '../data';
+
 export default function Timer() {
   const navigation = useNavigation();
-  const [alarms, setAlarms] = useState<D.AlarmType[]>([]);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [scrollEnabled] = useScrollEnabled();
 
   return (
     <SafeAreaView>
       <ScrollEnabledProvider>
-        <View style={[styles.view]}>
-          <NavigationHeader title="Timer" />
-        </View>
+        <View style={[styles.view]}></View>
       </ScrollEnabledProvider>
     </SafeAreaView>
   );
