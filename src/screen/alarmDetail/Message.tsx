@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Colors} from 'react-native-paper';
 import {AutoFocusProvider, useAutoFocus} from '../../contexts';
@@ -20,20 +20,22 @@ const Message = () => {
   //prettier-ignore
   const {message} = useSelector<AppState, A.State>(({alarm}) => alarm);
   const [newMessage, setNewMessage] = useState<string>(message);
-  navigation.setOptions({
-    headerRight: () => (
-      <Pressable
-        onPress={() => {
-          dispatch(A.updateAction('message', message));
-          navigation.goBack();
-        }}>
-        <Text
-          style={[{fontSize: 18, color: Colors.blue500, fontWeight: '600'}]}>
-          Done
-        </Text>
-      </Pressable>
-    ),
-  });
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Pressable
+          onPress={() => {
+            dispatch(A.updateAction('message', newMessage));
+            navigation.goBack();
+          }}>
+          <Text
+            style={[{fontSize: 18, color: Colors.blue500, fontWeight: '600'}]}>
+            Done
+          </Text>
+        </Pressable>
+      ),
+    });
+  }, [newMessage]);
 
   return (
     <View style={[styles.view]}>

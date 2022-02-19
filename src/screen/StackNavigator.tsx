@@ -60,11 +60,7 @@ const ModalStackView = () => {
           ...TransitionPresets.ModalPresentationIOS,
         }}
       />
-      <ModalStack.Screen
-        name="Message"
-        component={Message}
-        options={modalScreenOption}
-      />
+      <ModalStack.Screen name="Message" component={Message} />
       <ModalStack.Screen
         name="Song"
         component={Song}
