@@ -1,14 +1,10 @@
-import {useCallback} from 'react';
 import {
   deleteAlarmById as RNDeleteAlarmById,
   deleteAllAlarms as RNDeleteAllAlarms,
 } from 'react-native-simple-alarm';
-import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
+import {AlarmType} from '.';
 
-type deleteAlarmProps = AlarmType;
-
-export const deleteAlarmById = async (props: deleteAlarmProps) => {
-  const {oid} = props;
+export const deleteAlarmById = async (oid: AlarmType['id']) => {
   if (oid) {
     try {
       await RNDeleteAlarmById(oid);

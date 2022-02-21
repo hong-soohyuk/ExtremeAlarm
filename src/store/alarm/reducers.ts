@@ -1,10 +1,10 @@
-import {Dispatch} from 'redux';
+import {act} from 'react-test-renderer';
 import * as T from './types';
 
 const initialAlarmState: T.State = {
-  active: false,
+  active: true,
   date: new Date(),
-  message: 'empty strg',
+  message: 'empty string!',
   snooze: 1,
   soundName: '',
 };
@@ -12,11 +12,11 @@ const initialAlarmState: T.State = {
 export const reducer = (state = initialAlarmState, action: T.Actions) => {
   switch (action.type) {
     case '@alarm/update':
-      return {...state, [action.fieldName]: action.value};
-    case '@alarm/cancel':
+      console.log('업뎃 액션ㅇㅇ ', action.propertyName, action.value);
+      return {...state, [action.propertyName]: action.value};
+    case '@alarm/reset':
+      console.log('리셋 액션ㅇㅇ 이니셜 스테이트');
       return initialAlarmState;
   }
   return state;
 };
-
-export const getAlarmss = (dispatch: Dispatch) => {};

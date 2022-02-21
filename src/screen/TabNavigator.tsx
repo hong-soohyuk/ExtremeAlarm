@@ -3,10 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
-import {Stack} from 'react-native-router-flux';
 import StackNavigator from './StackNavigator';
-import {useSelector} from 'react-redux';
-import {AppState, Locale} from '../store/alarm';
 import Timer from './Timer';
 
 type TabBarIconProps = {focused: boolean; color: string; size: number};

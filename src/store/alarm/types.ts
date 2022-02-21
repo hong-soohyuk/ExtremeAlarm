@@ -1,13 +1,13 @@
 import type {Action} from 'redux';
-import {createAlarmProps} from '../../libs/alarm';
+import {AlarmType} from '../../libs/alarm/alarmType';
 
-export type State = createAlarmProps;
+export type State = AlarmType;
 
 export type UpdateAction = Action<'@alarm/update'> & {
-  fieldName: string;
+  propertyName: string;
   value: any;
 };
 
-export type CancelAction = Action<'@alarm/cancel'>;
+export type ResetAction = Action<'@alarm/reset'>;
 
-export type Actions = CancelAction | UpdateAction;
+export type Actions = ResetAction | UpdateAction;

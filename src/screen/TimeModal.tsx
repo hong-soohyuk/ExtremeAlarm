@@ -1,35 +1,40 @@
-import React, {ComponentProps, useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import type {FC} from 'react';
 import DatePicker from 'react-native-date-picker';
 //prettier-ignore
 import { Pressable, StyleSheet, Text, View, Switch} from 'react-native';
-import {FlatList, State, TouchableOpacity} from 'react-native-gesture-handler';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {ModalStackParamList} from './StackNavigator';
-import {createAlarm, createAlarmProps} from '../libs/alarm';
+import {createAlarm} from '../libs/alarm';
 import {Colors} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState} from '../store';
 import * as A from '../store/alarm';
 
 type alarmScreenProp = StackNavigationProp<ModalStackParamList, 'AddAlarm'>;
+type alarmRouteProp = RouteProp<ModalStackParamList, 'AddAlarm'>;
 
 const TimeModal = () => {
   const navigation = useNavigation<alarmScreenProp>();
-
   //prettier-ignore
   const {active, date, message, snooze, soundName} = useSelector<AppState, A.State>(({alarm}) => alarm);
   const dispatch = useDispatch();
-  const initialState = useCallback(() => {
-    dispatch(A.cancelAction());
-  }, []);
-  useEffect(initialState, []);
+  const initialState = () => {
+    console.log('이니셜 스테이트 유즈 콜백');
+    dispatch(A.resetAction());
+  };
+  const [dateState, setDateState] = useState<Date>(new Date(date));
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Pressable onPress={() => navigation.goBack()}>
+        <Pressable
+          onPress={() => {
+            initialState();
+            navigation.goBack();
+          }}>
           <Text style={[{fontSize: 18, color: Colors.blue500}]}>Cancel</Text>
         </Pressable>
       ),
@@ -46,7 +51,7 @@ const TimeModal = () => {
         </Pressable>
       ),
     });
-  }, [date, navigation]);
+  }, [date, active, navigation]);
   //header setting
 
   const optionData = [
@@ -58,11 +63,12 @@ const TimeModal = () => {
   return (
     <View style={[styles.view]}>
       <DatePicker
-        date={date}
+        date={dateState}
         mode="time"
-        onDateChange={selectedDate =>
-          dispatch(A.updateAction('date', selectedDate))
-        }
+        onDateChange={selectedDate => {
+          setDateState(selectedDate);
+          dispatch(A.updateAction('date', selectedDate.toISOString()));
+        }}
       />
       <View style={[styles.tapListView]}>
         <FlatList
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
   tapListView: {
     flexDirection: 'column',
     alignSelf: 'center',
-    width: '100%',
+    width: '90%',
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 5,

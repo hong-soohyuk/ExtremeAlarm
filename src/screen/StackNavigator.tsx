@@ -9,14 +9,13 @@ import TimeModal from './TimeModal';
 import Message from './alarmDetail/Message';
 import Song from './alarmDetail/Song';
 import Repeat from './alarmDetail/Repeat';
-import {createAlarmProps} from '../libs/alarm';
 
 export type RootStackParamList = {
   Home: undefined;
-  ModalStackView: undefined;
+  ModalStackView: undefined; // stack navigation.
 };
 export type ModalStackParamList = {
-  AddAlarm: undefined;
+  AddAlarm: undefined; // initial route of stack navigation
   Message: undefined;
   Song: undefined;
   Repeat: undefined;
@@ -60,7 +59,11 @@ const ModalStackView = () => {
           ...TransitionPresets.ModalPresentationIOS,
         }}
       />
-      <ModalStack.Screen name="Message" component={Message} />
+      <ModalStack.Screen
+        name="Message"
+        component={Message}
+        options={modalScreenOption}
+      />
       <ModalStack.Screen
         name="Song"
         component={Song}

@@ -1,11 +1,11 @@
 import type * as T from './types';
 
 //prettier-ignore
-export const updateAction = (fieldName: string,value: any): T.UpdateAction => ({
+export const updateAction = (propertyName: string, value: any): T.UpdateAction => ({
   type: '@alarm/update',
-  fieldName, value
+  propertyName, value
 });
 
-export const cancelAction = (): T.CancelAction => ({
-  type: '@alarm/cancel',
+export const resetAction = (): T.ResetAction => ({
+  type: '@alarm/reset',
 });

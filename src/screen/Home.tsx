@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect, useRef} from 'react';
+import React, {useState, useLayoutEffect, useCallback, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, FlatList, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
@@ -13,47 +13,49 @@ import {deleteAllAlarms, getAlarms} from '../libs/alarm';
 type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function Home() {
-  const navigation = useNavigation<homeScreenProp>();
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      // prettier-ignore
-      headerLeft: () => <Icon name="trash-can-outline" size={30} onPress={deleteAllAlarms}/>,
-      headerTitle: 'Alarm',
-      headerRight: () =>
-        // prettier-ignore
-        <Icon name="plus" size={30} onPress={() => navigation.navigate('ModalStackView')}/>,
-    });
-  }, [navigation]);
-  const [alarms, setAlarms] = useState<AlarmType[]>([]);
   const [scrollEnabled] = useScrollEnabled();
+  const navigation = useNavigation<homeScreenProp>();
+  const [alarms, setAlarms] = useState<AlarmType[]>([]);
 
-  const getSavedAlarms = useCallback(() => {
-    getAlarms().then(res => {
-      if (res) setAlarms(res);
-      else console.log('return undefined in getSavedAlarms: ', res);
+  const fetchData = useCallback(() => {
+    getAlarms().then(response => {
+      if (response) setAlarms(response);
+      else console.log('undefined | empty array returned');
     });
-  }, [alarms]);
+  }, []);
+
+  useLayoutEffect(() => {
+    fetchData();
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    console.log(alarms);
+    return willFocusSubscription;
+  }, [fetchData]);
 
   useEffect(() => {
-    getSavedAlarms();
-
-    // alarms.map(i => {
-    //   console.log(i.date);
-    // });
-  }, [getSavedAlarms]);
-
-  const flatListRef = useRef<FlatList | null>(null);
+    navigation.setOptions({
+      // prettier-ignore
+      headerLeft: () => <Icon name="trash-can-outline" size={30}
+      onPress={() => {
+        deleteAllAlarms();
+        fetchData();
+      }}/>,
+      headerTitle: 'Alarm',
+      // prettier-ignore
+      headerRight: () =><Icon name="plus" size={30} onPress={() => navigation.navigate('ModalStackView')}/>,
+    });
+  }, []);
 
   return (
     <SafeAreaView style={[{flex: 1}]}>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
           <FlatList
-            ref={flatListRef}
             scrollEnabled={scrollEnabled}
             data={alarms}
             renderItem={({item}) => <ListItem {...item} />}
-            keyExtractor={item => item.oid}
+            keyExtractor={item => item.date} //oid??
           />
         </View>
       </ScrollEnabledProvider>
