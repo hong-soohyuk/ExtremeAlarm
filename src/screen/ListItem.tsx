@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
+import type {FC} from 'react';
 import {styles} from './ListItem.style';
 import moment from 'moment-timezone';
 import {Swipeable, TouchableOpacity} from 'react-native-gesture-handler';
 import {Animated, Switch, Text, View} from 'react-native';
 import {AlarmType, deleteAlarmById, switchAlarmById} from '../libs/alarm';
 
-const ListItem = (props: AlarmType) => {
+type ListItemProps = AlarmType & {fetchDate: () => void};
+
+const ListItem = (props: ListItemProps) => {
   const {oid, active, date, snooze, message} = props;
-  // console.log(props);
   return (
     <Swipeable
       renderRightActions={(progress, dragAnimatedValue) =>
@@ -17,16 +19,19 @@ const ListItem = (props: AlarmType) => {
       onSwipeableRightOpen={() => deleteAlarmById(oid)}>
       <View style={[styles.itemView]}>
         <View style={[styles.timeView]}>
-          <Text style={[styles.timeText]}>
-            {moment(date).format('HH:mm A')}
-            {/* use HH for 24hours system, or hh for 12hours */}
-          </Text>
-          <Switch value={active} onChange={() => switchAlarmById({...props})} />
+          <Text style={[styles.timeText]}>{moment(date).format('HH:mm')}</Text>
+          <Switch
+            value={active}
+            onChange={() =>
+              switchAlarmById({...props}).then(() => {
+                props.fetchDate();
+              })
+            }
+          />
         </View>
         <View style={[styles.messageView]}>
           <Text style={[styles.messageText]}>
-            {/* alarm will ring {moment(date).fromNow()} */}
-            {date}/ {snooze}/ {message}
+            alarm will ring {moment(date).fromNow()}
           </Text>
           <Text style={[styles.messageText]}>
             {active ? <>activated</> : <>canceled</>}

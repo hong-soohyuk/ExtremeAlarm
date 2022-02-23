@@ -7,19 +7,13 @@ import {AlarmType} from '.';
 export const switchAlarmById = async (props: AlarmType) => {
   if (props.oid) {
     try {
-      console.log(
-        '스위치 알람: ' + props.oid + ', ',
-        props.active + ', ',
-        props.date,
-      );
-
       props.active
         ? await cancelAlarmById(props.oid)
         : await activateAlarmById(props.oid);
     } catch (error) {
       console.log('in switchAlarmById: ', error);
     }
-  } else console.log('alarm without oid: ', props.oid + ', ' + props.active);
+  } else console.log('alarm without oid: ');
 };
 
 const editAlarm = async (props: AlarmType) => {

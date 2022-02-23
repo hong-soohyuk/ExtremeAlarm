@@ -7,7 +7,7 @@ import {AlarmType} from '.';
 export const deleteAlarmById = async (oid: AlarmType['id']) => {
   if (oid) {
     try {
-      await RNDeleteAlarmById(oid);
+      return await RNDeleteAlarmById(oid);
     } catch (error) {
       console.log('deleting alarm by id error: ', error);
     }
@@ -18,7 +18,7 @@ export const deleteAlarmById = async (oid: AlarmType['id']) => {
 
 export const deleteAllAlarms = async () => {
   try {
-    await RNDeleteAllAlarms();
+    return await RNDeleteAllAlarms();
   } catch (error) {
     console.log('delete error' + error);
   }

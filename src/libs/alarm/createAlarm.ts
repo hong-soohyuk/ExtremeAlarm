@@ -7,7 +7,7 @@ export const createAlarm = async (props: AlarmType) => {
   const {active, date, message, snooze, soundName} = props;
   console.log('알람 만드는 함수, ', date);
   try {
-    await RNCreateAlarm({
+    return await RNCreateAlarm({
       active: active,
       date: date,
       message: message,

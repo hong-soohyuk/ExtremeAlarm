@@ -5,10 +5,9 @@ import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 import {useNavigation} from '@react-navigation/native';
 // prettier-ignore
 import ListItem from './ListItem';
-import {Alarm as AlarmType} from 'react-native-simple-alarm/dist/Types';
 import {RootStackParamList} from './StackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {deleteAllAlarms, getAlarms} from '../libs/alarm';
+import {AlarmType, deleteAllAlarms, getAlarms} from '../libs/alarm';
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -19,43 +18,48 @@ export default function Home() {
 
   const fetchData = useCallback(() => {
     getAlarms().then(response => {
-      if (response) setAlarms(response);
+      if (response) setAlarms([...response]);
       else console.log('undefined | empty array returned');
     });
   }, []);
 
-  useLayoutEffect(() => {
-    fetchData();
+  useEffect(() => {
     const willFocusSubscription = navigation.addListener('focus', () => {
       fetchData();
     });
-    console.log(alarms);
     return willFocusSubscription;
-  }, [fetchData]);
+  }, [fetchData, navigation]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
-      // prettier-ignore
-      headerLeft: () => <Icon name="trash-can-outline" size={30}
-      onPress={() => {
-        deleteAllAlarms();
-        fetchData();
-      }}/>,
+      headerLeft: () =>
+        //prettier-ignore
+        <Icon name="trash-can-outline" size={30} 
+        onPress={() => {
+          deleteAllAlarms().then(response => {
+            if(response) setAlarms([...response]);
+          })
+        }}/>,
       headerTitle: 'Alarm',
-      // prettier-ignore
-      headerRight: () =><Icon name="plus" size={30} onPress={() => navigation.navigate('ModalStackView')}/>,
+      headerRight: () =>
+        //prettier-ignore
+        <Icon name="plus" size={30} 
+        onPress={() => navigation.navigate('ModalStackView')} />, // createAlarms().then
     });
-  }, []);
+  }, [fetchData, deleteAllAlarms, navigation]);
 
   return (
     <SafeAreaView style={[{flex: 1}]}>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
+          {console.log('flatlist render?', alarms)}
           <FlatList
             scrollEnabled={scrollEnabled}
             data={alarms}
-            renderItem={({item}) => <ListItem {...item} />}
-            keyExtractor={item => item.date} //oid??
+            keyExtractor={(item: AlarmType) => item.date}
+            renderItem={(result: {item: AlarmType}) => (
+              <ListItem {...result.item} fetchDate={fetchData}/>
+            )}
           />
         </View>
       </ScrollEnabledProvider>

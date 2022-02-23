@@ -21,10 +21,7 @@ const TimeModal = () => {
   //prettier-ignore
   const {active, date, message, snooze, soundName} = useSelector<AppState, A.State>(({alarm}) => alarm);
   const dispatch = useDispatch();
-  const initialState = () => {
-    console.log('이니셜 스테이트 유즈 콜백');
-    dispatch(A.resetAction());
-  };
+  const initialState = () => dispatch(A.resetAction());
   const [dateState, setDateState] = useState<Date>(new Date(date));
 
   useLayoutEffect(() => {
@@ -41,8 +38,11 @@ const TimeModal = () => {
       headerRight: () => (
         <Pressable
           onPress={() => {
-            createAlarm({active, date, message, snooze, soundName});
-            navigation.goBack();
+            createAlarm({active, date, message, snooze, soundName}).then(
+              response => {
+                if (response) navigation.goBack();
+              },
+            );
           }}>
           <Text
             style={[{fontSize: 18, color: Colors.blue500, fontWeight: '600'}]}>

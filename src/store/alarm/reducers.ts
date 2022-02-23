@@ -1,9 +1,8 @@
-import {act} from 'react-test-renderer';
 import * as T from './types';
 
 const initialAlarmState: T.State = {
   active: true,
-  date: new Date(),
+  date: new Date().toISOString(),
   message: 'empty string!',
   snooze: 1,
   soundName: '',

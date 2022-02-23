@@ -31,7 +31,7 @@ const ModalStack = createNativeStackNavigator<ModalStackParamList>();
 
 const StackNavigator = () => {
   return (
-    <RootStack.Navigator>
+    <RootStack.Navigator initialRouteName="Home">
       <RootStack.Screen name="Home" component={Home} />
       <RootStack.Screen
         name="ModalStackView"
@@ -49,7 +49,9 @@ const StackNavigator = () => {
 
 const ModalStackView = () => {
   return (
-    <ModalStack.Navigator screenOptions={{headerShown: true}}>
+    <ModalStack.Navigator
+      initialRouteName="AddAlarm"
+      screenOptions={{headerShown: true}}>
       <ModalStack.Screen
         name="AddAlarm"
         component={TimeModal}
