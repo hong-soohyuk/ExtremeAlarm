@@ -7,28 +7,17 @@ import {useNavigation} from '@react-navigation/native';
 import ListItem from './ListItem';
 import {RootStackParamList} from './StackNavigator';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {AlarmType, deleteAllAlarms, getAlarms} from '../libs/alarm';
+import {AlarmType, deleteAllAlarms} from '../libs/alarm';
+import {useSelector} from 'react-redux';
+import {AppState} from '../store/AppState';
+import * as AL from '../store/alarmList';
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function Home() {
   const [scrollEnabled] = useScrollEnabled();
   const navigation = useNavigation<homeScreenProp>();
-  const [alarms, setAlarms] = useState<AlarmType[]>([]);
-
-  const fetchData = useCallback(() => {
-    getAlarms().then(response => {
-      if (response) setAlarms([...response]);
-      else console.log('undefined | empty array returned');
-    });
-  }, []);
-
-  useEffect(() => {
-    const willFocusSubscription = navigation.addListener('focus', () => {
-      fetchData();
-    });
-    return willFocusSubscription;
-  }, [fetchData, navigation]);
+  const alarmList = useSelector<AppState, AL.State>(({alarmList}) => alarmList);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,29 +25,27 @@ export default function Home() {
         //prettier-ignore
         <Icon name="trash-can-outline" size={30} 
         onPress={() => {
-          deleteAllAlarms().then(response => {
-            if(response) setAlarms([...response]);
-          })
+          deleteAllAlarms()
         }}/>,
       headerTitle: 'Alarm',
       headerRight: () =>
         //prettier-ignore
         <Icon name="plus" size={30} 
-        onPress={() => navigation.navigate('ModalStackView')} />, // createAlarms().then
+        onPress={() => navigation.navigate('ModalStackView')} />,
     });
-  }, [fetchData, deleteAllAlarms, navigation]);
+  }, [deleteAllAlarms, navigation]);
 
   return (
     <SafeAreaView style={[{flex: 1}]}>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
-          {console.log('flatlist render?', alarms)}
+          {console.log('flatlist render?', alarmList)}
           <FlatList
             scrollEnabled={scrollEnabled}
-            data={alarms}
-            keyExtractor={(item: AlarmType) => item.date}
+            data={alarmList}
+            keyExtractor={(item, index) => index.toString()} // since oid === undefined |typeof string | number
             renderItem={(result: {item: AlarmType}) => (
-              <ListItem {...result.item} fetchDate={fetchData}/>
+              <ListItem {...result.item} />
             )}
           />
         </View>

@@ -38,11 +38,8 @@ const TimeModal = () => {
       headerRight: () => (
         <Pressable
           onPress={() => {
-            createAlarm({active, date, message, snooze, soundName}).then(
-              response => {
-                if (response) navigation.goBack();
-              },
-            );
+            createAlarm({active, date, message, snooze, soundName});
+            navigation.goBack();
           }}>
           <Text
             style={[{fontSize: 18, color: Colors.blue500, fontWeight: '600'}]}>

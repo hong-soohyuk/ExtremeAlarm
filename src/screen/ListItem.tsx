@@ -4,11 +4,14 @@ import {styles} from './ListItem.style';
 import moment from 'moment-timezone';
 import {Swipeable, TouchableOpacity} from 'react-native-gesture-handler';
 import {Animated, Switch, Text, View} from 'react-native';
-import {AlarmType, deleteAlarmById, switchAlarmById} from '../libs/alarm';
+import {
+  AlarmType,
+  deleteAlarmById,
+  getAlarms,
+  switchAlarmById,
+} from '../libs/alarm';
 
-type ListItemProps = AlarmType & {fetchDate: () => void};
-
-const ListItem = (props: ListItemProps) => {
+const ListItem = (props: AlarmType) => {
   const {oid, active, date, snooze, message} = props;
   return (
     <Swipeable
@@ -24,7 +27,7 @@ const ListItem = (props: ListItemProps) => {
             value={active}
             onChange={() =>
               switchAlarmById({...props}).then(() => {
-                props.fetchDate();
+                getAlarms();
               })
             }
           />

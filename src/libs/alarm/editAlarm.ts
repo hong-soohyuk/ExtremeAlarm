@@ -3,6 +3,8 @@ import * as Localize from 'react-native-localize';
 import {editAlarm as RNEditAlarm} from 'react-native-simple-alarm';
 import moment from 'moment-timezone';
 import {AlarmType} from '.';
+import {useDispatch} from 'react-redux';
+import * as AL from '../../store/alarmList';
 
 export const switchAlarmById = async (props: AlarmType) => {
   if (props.oid) {

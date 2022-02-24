@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Provider as ReduxProvider} from 'react-redux';
+import {Provider as ReduxProvider, useDispatch} from 'react-redux';
 import {makeStore} from './src/store';
 
 //prettier-ignore
@@ -13,6 +13,7 @@ import RNSoundWrapperComponent from './components/RNSoundWrapperComponent';
 import {ActionConst, Router, Scene} from 'react-native-router-flux';
 import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './src/screen/TabNavigator';
+import {getAlarms} from './src/libs/alarm';
 
 const store = makeStore();
 
