@@ -2,11 +2,6 @@ import {getAlarms} from '../../libs/alarm';
 import * as T from './types';
 
 const initialAlarmState: T.State = [];
-// active: true,
-// date: new Date().toISOString(),
-// message: 'empty string!',
-// snooze: 1,
-// soundName: '',
 
 export const reducer = (state = initialAlarmState, action: T.Actions) => {
   switch (action.type) {
@@ -18,9 +13,11 @@ export const reducer = (state = initialAlarmState, action: T.Actions) => {
       return initialAlarmState;
     case '@alarm/edit':
       return state.map(alarm => {
+        console.log(JSON.stringify(alarm));
         if (alarm.oid === action.payload) {
           return {...alarm, active: alarm.active ? false : true};
         }
+        return alarm;
       });
     case '@alarm/get':
       return [...action.payload];

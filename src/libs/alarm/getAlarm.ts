@@ -8,7 +8,6 @@ const dispatch = useDispatch();
 export const getAlarms = async () => {
   try {
     await RNGetAlarms().then(response => {
-      console.log('겟알람');
       if (response) dispatch(AL.getAction([...response]));
       else console.log('cannot get alarms');
     });

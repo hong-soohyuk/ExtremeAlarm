@@ -39,7 +39,6 @@ export default function Home() {
     <SafeAreaView style={[{flex: 1}]}>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
-          {console.log('flatlist render?', alarmList)}
           <FlatList
             scrollEnabled={scrollEnabled}
             data={alarmList}

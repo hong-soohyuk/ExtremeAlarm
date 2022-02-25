@@ -8,9 +8,12 @@ import * as AL from '../../store/alarmList';
 
 export const switchAlarmById = async (props: AlarmType) => {
   if (props.oid) {
+    console.log('스위칭', JSON.stringify(props));
     try {
       props.active
-        ? await cancelAlarmById(props.oid)
+        ? await cancelAlarmById(props.oid).then(response => {
+            console.log('캔슬', JSON.stringify(response)); //여기서 왜 시간이 지 맘대로 바뀌냐고
+          })
         : await activateAlarmById(props.oid);
     } catch (error) {
       console.log('in switchAlarmById: ', error);

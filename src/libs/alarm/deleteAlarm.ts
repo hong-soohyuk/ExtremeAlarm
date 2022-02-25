@@ -8,7 +8,7 @@ import * as AL from '../../store/alarmList';
 
 const dispatch = useDispatch();
 
-export const deleteAlarmById = async (oid: AlarmType['id']) => {
+export const deleteAlarmById = async (oid: AlarmType['oid']) => {
   if (oid) {
     try {
       await RNDeleteAlarmById(oid).then(response => {
@@ -22,7 +22,7 @@ export const deleteAlarmById = async (oid: AlarmType['id']) => {
 
 export const deleteAllAlarms = async () => {
   try {
-    await RNDeleteAllAlarms().then(response => {
+    await RNDeleteAllAlarms().then(() => {
       dispatch(AL.deleteAllAction());
     });
   } catch (error) {
